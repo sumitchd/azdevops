@@ -127,7 +127,7 @@ function App() {
   return (
     <div className="pl-5 App-header">
       <p>
-        {`${uiMessages.hello} ${user?.name}`}!
+        {`${uiMessages.hello}, ${user?.name}`}!
         <a
           href="#"
           className="pl-5 App-link"

@@ -6,7 +6,7 @@ exports[`renders with WI data 1`] = `
     class="pl-5 App-header"
   >
     <p>
-      Hello Sumit
+      Hello, Sumit
       !
       <a
         class="pl-5 App-link"
