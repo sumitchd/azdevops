@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with WI data 1`] = `
+<div>
+  <div>
+    <p>
+      Hello 
+      Sumit
+    </p>
+    <ul>
+      <li>
+        <span>
+          ID: 1 Title: new item 
+          <a
+            href="#"
+            id="1"
+          >
+            Edit
+          </a>
+        </span>
+      </li>
+      <ul>
+        <li>
+          <span>
+            ID: 2 Title: new child item 
+            <a
+              href="#"
+              id="2"
+            >
+              Edit
+            </a>
+          </span>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <span>
+            ID: 3 Title: new child item 2 
+            <a
+              href="#"
+              id="3"
+            >
+              Edit
+            </a>
+          </span>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <span>
+            ID: 4 Title: new child item 4 
+            <a
+              href="#"
+              id="4"
+            >
+              Edit
+            </a>
+          </span>
+        </li>
+        <ul>
+          <li>
+            <span>
+              ID: 5 Title: new child item 5 
+              <a
+                href="#"
+                id="5"
+              >
+                Edit
+              </a>
+            </span>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <span>
+              ID: 6 Title: new child item 6 
+              <a
+                href="#"
+                id="6"
+              >
+                Edit
+              </a>
+            </span>
+          </li>
+        </ul>
+      </ul>
+    </ul>
+    <div>
+      <span>
+        <input
+          data-testid="editTextbox"
+          id="editTextbox"
+          type="text"
+        />
+        <br />
+        <button>
+          Update
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
+`;

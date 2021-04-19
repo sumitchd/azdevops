@@ -12,9 +12,9 @@ import {
 function App() {
   const { authClient, httpClient } = React.useContext(AppContext);
   const azDevopsService = new AzureDevopsService(httpClient);
-  const [user, setUser] = useState<IUser | null>(null);
-  const [reloadData, setReloadData] = useState(true);
-  const [treeData, setTreeData] = useState(Array<ITreeView>());
+  const [user, setUser] = React.useState<IUser | null>(null);
+  const [reloadData, setReloadData] = React.useState(true);
+  const [treeData, setTreeData] = React.useState(Array<ITreeView>());
   const [currentEditItem, setCurrentEditItem] = useState({} as IItem);
   const orgName = "sumitsharma95";
   const projectName = "connected-cars";
@@ -29,25 +29,27 @@ function App() {
         }
       } else {
         if (reloadData) {
-          const response: IWorkItemsWithRelations = await azDevopsService.GetWorkItemIDsAsync(
-            orgName,
-            projectName
-          );
-          const commaSeperatedIds = response.workItemRelations
-            .map((x) => x.target.id)
-            .join();
+          try {
+            const response: IWorkItemsWithRelations = await azDevopsService.GetWorkItemIDsAsync(
+              orgName,
+              projectName
+            );
+            const commaSeperatedIds = response.workItemRelations
+              .map((x) => x.target?.id)
+              .join();
 
-          const itemDetailResponse: IWorkItemIds = await azDevopsService.GetWorkItemDetailsByIdAsync(
-            orgName,
-            projectName,
-            commaSeperatedIds
-          );
-          const treeData = azDevopsService.createHierarchy(
-            response.workItemRelations,
-            itemDetailResponse.value
-          );
-          setTreeData(treeData);
-          setReloadData(false);
+            const itemDetailResponse: IWorkItemIds = await azDevopsService.GetWorkItemDetailsByIdAsync(
+              orgName,
+              projectName,
+              commaSeperatedIds
+            );
+            const treeData = azDevopsService.createHierarchy(
+              response.workItemRelations,
+              itemDetailResponse.value
+            );
+            setTreeData(treeData);
+            setReloadData(false);
+          } catch {}
         }
       }
     })();
@@ -65,8 +67,8 @@ function App() {
   const printWITree = (data: ITreeView[]) => {
     return data.map((item, index) => {
       return (
-        <ul>
-          <li>
+        <ul key={`ul_${item.id}`}>
+          <li key={`li_${item.id}`}>
             <span>
               {"ID: " + item.id + " Title: " + item.title + " "}
               <a
@@ -105,6 +107,7 @@ function App() {
         setCurrentEditItem({} as IItem);
         inputEle.value = "";
         setReloadData(true);
+        alert("Update success");
       }
     }
   };
@@ -114,7 +117,7 @@ function App() {
       {printWITree(treeData)}
       <div>
         <span>
-          <input type="text" id="editTextbox"></input>
+          <input type="text" id="editTextbox" data-testid="editTextbox"></input>
           <br />
           <button onClick={onUpdateClick}>Update</button>
         </span>
