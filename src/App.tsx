@@ -127,16 +127,18 @@ function App() {
   return (
     <div className="pl-5 App-header">
       <p>
-        {`${uiMessages.hello}, ${user?.name}`}!
-        <a
-          href="#"
-          className="pl-5 App-link"
-          onClick={async () => {
-            await authClient.logOut();
-          }}
-        >
-          {uiMessages.logout}
-        </a>
+        {`${uiMessages.hello}, ${user?.name || ""}`}!
+        {user && (
+          <a
+            href="#"
+            className="pl-5 App-link"
+            onClick={async () => {
+              await authClient.logOut();
+            }}
+          >
+            {uiMessages.logout}
+          </a>
+        )}
       </p>
       {pageError ? pageError : printWITree(treeData)}
       <div>
