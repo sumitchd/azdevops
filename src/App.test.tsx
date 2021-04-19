@@ -5,8 +5,6 @@ import App from "./App";
 test("renders hello and updateTextbox", () => {
   render(<App />);
   const helloText = screen.getByText(/Hello/i);
-  const updateTextbox = screen.getByTestId("editTextbox");
-  expect(updateTextbox).toBeInTheDocument();
   expect(helloText).toBeInTheDocument();
 });
 

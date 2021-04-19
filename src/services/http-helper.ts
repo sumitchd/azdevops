@@ -45,12 +45,8 @@ export class HttpClient implements IHttpClient {
   }
 
   private async AppendAuthToken(headers: IHttpHeader, resourceId: string) {
-    try {
-      const token = await this.authClient.acquireToken(resourceId);
-      headers.Authorization = "bearer " + token;
-    } catch {
-      //log error in telemetry
-    }
+    const token = await this.authClient.acquireToken(resourceId);
+    headers.Authorization = "bearer " + token;
     return headers;
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IUser } from "./models/core-services.model";
 import { AppContext } from "./services/app-context";
+import "./App.css";
 import { AzureDevopsService } from "./services/azure-devops.service";
 import {
   IItem,
@@ -8,6 +9,7 @@ import {
   IWorkItemIds,
   IWorkItemsWithRelations,
 } from "./models/app.model";
+import { appConstants, uiMessages } from "./constants/ui.constants";
 
 function App() {
   const { authClient, httpClient } = React.useContext(AppContext);
@@ -16,8 +18,9 @@ function App() {
   const [reloadData, setReloadData] = React.useState(true);
   const [treeData, setTreeData] = React.useState(Array<ITreeView>());
   const [currentEditItem, setCurrentEditItem] = useState({} as IItem);
-  const orgName = "sumitsharma95";
-  const projectName = "connected-cars";
+  const [pageError, setPageError] = useState("");
+  const orgName = appConstants.orgName;
+  const projectName = appConstants.projectName;
   React.useEffect(() => {
     (async () => {
       if (!user) {
@@ -49,7 +52,9 @@ function App() {
             );
             setTreeData(treeData);
             setReloadData(false);
-          } catch {}
+          } catch {
+            setPageError(uiMessages.pageError);
+          }
         }
       }
     })();
@@ -57,36 +62,17 @@ function App() {
 
   const onEditClick = (id: number, currentTitle: string) => {
     setCurrentEditItem({ id, title: currentTitle });
-    const inputbox = document.getElementById("editTextbox") as HTMLInputElement;
-    if (inputbox) {
-      inputbox.value = currentTitle;
-      inputbox?.focus();
-    }
+    setTimeout(() => {
+      const inputbox = document.getElementById(
+        "editTextbox"
+      ) as HTMLInputElement;
+      if (inputbox) {
+        inputbox.value = currentTitle;
+        inputbox?.focus();
+      }
+    }, 0);
   };
 
-  const printWITree = (data: ITreeView[]) => {
-    return data.map((item, index) => {
-      return (
-        <ul key={`ul_${item.id}`}>
-          <li key={`li_${item.id}`}>
-            <span>
-              {"ID: " + item.id + " Title: " + item.title + " "}
-              <a
-                href="#"
-                id={item.id.toString()}
-                onClick={(e) => {
-                  onEditClick(+e.currentTarget.id, item.title);
-                }}
-              >
-                Edit
-              </a>
-            </span>
-          </li>
-          {item.children?.length ? printWITree(item.children) : null}
-        </ul>
-      );
-    });
-  };
   const onUpdateClick = async () => {
     const inputEle = document.getElementById("editTextbox") as HTMLInputElement;
     if (inputEle?.value) {
@@ -107,20 +93,72 @@ function App() {
         setCurrentEditItem({} as IItem);
         inputEle.value = "";
         setReloadData(true);
-        alert("Update success");
+        alert(uiMessages.updateSuccess);
       }
     }
   };
+
+  const printWITree = (data: ITreeView[]) => {
+    return data.map((item) => {
+      return (
+        <ul key={`ul_${item.id}`}>
+          <li key={`li_${item.id}`}>
+            <span>
+              {`${uiMessages.id}: ${item.id} ${uiMessages.title}: ${item.title} `}
+              <a
+                href="#"
+                className="App-link"
+                data-testid={"edit" + item.id}
+                id={item.id.toString()}
+                onClick={(e) => {
+                  onEditClick(+e.currentTarget.id, item.title);
+                }}
+              >
+                {uiMessages.edit}
+              </a>
+            </span>
+          </li>
+          {item.children?.length ? printWITree(item.children) : null}
+        </ul>
+      );
+    });
+  };
+
   return (
-    <div>
-      <p>Hello {user?.name}</p>
-      {printWITree(treeData)}
+    <div className="pl-5 App-header">
+      <p>
+        {`${uiMessages.hello} ${user?.name}`}!
+        <a
+          href="#"
+          className="pl-5 App-link"
+          onClick={async () => {
+            await authClient.logOut();
+          }}
+        >
+          {uiMessages.logout}
+        </a>
+      </p>
+      {pageError ? pageError : printWITree(treeData)}
       <div>
-        <span>
-          <input type="text" id="editTextbox" data-testid="editTextbox"></input>
-          <br />
-          <button onClick={onUpdateClick}>Update</button>
-        </span>
+        {currentEditItem.id ? (
+          <span>
+            <input
+              type="text"
+              id="editTextbox"
+              placeholder={uiMessages.editItemText}
+              className="input"
+              data-testid="editTextbox"
+            ></input>
+            <br />
+            <button
+              className="btn"
+              data-testid="btnUpdate"
+              onClick={onUpdateClick}
+            >
+              {uiMessages.update}
+            </button>
+          </span>
+        ) : null}
       </div>
     </div>
   );

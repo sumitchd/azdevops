@@ -5,7 +5,7 @@ import {
   IWorkItemsWithRelations,
   IWorkItemIds,
 } from "../models/app.model";
-import { IHttpClient, IHttpHeader } from "../models/core-services.model";
+import { IHttpClient } from "../models/core-services.model";
 
 export class AzureDevopsService {
   private readonly httpClient: IHttpClient;

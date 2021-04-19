@@ -2,16 +2,26 @@
 
 exports[`renders with WI data 1`] = `
 <div>
-  <div>
+  <div
+    class="pl-5 App-header"
+  >
     <p>
-      Hello 
-      Sumit
+      Hello Sumit
+      !
+      <a
+        class="pl-5 App-link"
+        href="#"
+      >
+        Logout
+      </a>
     </p>
     <ul>
       <li>
         <span>
           ID: 1 Title: new item 
           <a
+            class="App-link"
+            data-testid="edit1"
             href="#"
             id="1"
           >
@@ -24,6 +34,8 @@ exports[`renders with WI data 1`] = `
           <span>
             ID: 2 Title: new child item 
             <a
+              class="App-link"
+              data-testid="edit2"
               href="#"
               id="2"
             >
@@ -37,6 +49,8 @@ exports[`renders with WI data 1`] = `
           <span>
             ID: 3 Title: new child item 2 
             <a
+              class="App-link"
+              data-testid="edit3"
               href="#"
               id="3"
             >
@@ -50,6 +64,8 @@ exports[`renders with WI data 1`] = `
           <span>
             ID: 4 Title: new child item 4 
             <a
+              class="App-link"
+              data-testid="edit4"
               href="#"
               id="4"
             >
@@ -62,6 +78,8 @@ exports[`renders with WI data 1`] = `
             <span>
               ID: 5 Title: new child item 5 
               <a
+                class="App-link"
+                data-testid="edit5"
                 href="#"
                 id="5"
               >
@@ -75,6 +93,8 @@ exports[`renders with WI data 1`] = `
             <span>
               ID: 6 Title: new child item 6 
               <a
+                class="App-link"
+                data-testid="edit6"
                 href="#"
                 id="6"
               >
@@ -85,19 +105,7 @@ exports[`renders with WI data 1`] = `
         </ul>
       </ul>
     </ul>
-    <div>
-      <span>
-        <input
-          data-testid="editTextbox"
-          id="editTextbox"
-          type="text"
-        />
-        <br />
-        <button>
-          Update
-        </button>
-      </span>
-    </div>
+    <div />
   </div>
 </div>
 `;
