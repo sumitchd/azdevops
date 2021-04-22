@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { AppContext } from "./services/app-context";
+import { AppWithCoreServices } from "./services/app-context";
 import { ADALClient } from "./services/adal-client";
 import { HttpClient } from "./services/http-helper";
 
@@ -13,11 +13,11 @@ const authClient = new ADALClient({
 const httpClient = new HttpClient(authClient);
 ReactDOM.render(
   <React.StrictMode>
-    <AppContext.Provider
+    <AppWithCoreServices
       value={{ authClient: authClient, httpClient: httpClient }}
     >
       <App />
-    </AppContext.Provider>
+    </AppWithCoreServices>
   </React.StrictMode>,
   document.getElementById("root")
 );
