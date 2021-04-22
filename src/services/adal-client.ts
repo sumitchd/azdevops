@@ -3,23 +3,23 @@ import AuthenticationContext from "adal-angular";
 import { IAuthClient, IUser } from "../models/core-services.model";
 
 export class ADALClient implements IAuthClient {
-  public static authCtx: AuthenticationContext;
+  public authCtx: AuthenticationContext;
 
   public constructor(options: Options) {
-    ADALClient.authCtx = new AuthenticationContext({
+    this.authCtx = new AuthenticationContext({
       cacheLocation: "localStorage",
       redirectUri: window.location.origin,
       ...options,
     });
 
-    ADALClient.authCtx.handleWindowCallback();
+    this.authCtx.handleWindowCallback();
   }
   authContext: unknown;
 
   public async login(): Promise<void> {
     return new Promise((resolve, reject): void => {
       try {
-        ADALClient.authCtx.login();
+        this.authCtx.login();
         resolve();
       } catch (ex) {
         reject(ex);
@@ -30,7 +30,7 @@ export class ADALClient implements IAuthClient {
   public async logOut(): Promise<void> {
     return new Promise((resolve, reject): void => {
       try {
-        ADALClient.authCtx.logOut();
+        this.authCtx.logOut();
         resolve();
       } catch (ex) {
         reject(ex);
@@ -41,7 +41,7 @@ export class ADALClient implements IAuthClient {
   public async getUser(): Promise<IUser | null> {
     return new Promise((resolve, reject): void => {
       try {
-        const user = ADALClient.authCtx.getCachedUser();
+        const user = this.authCtx.getCachedUser();
         if (!user) return resolve(null);
 
         resolve({
@@ -83,7 +83,7 @@ export class ADALClient implements IAuthClient {
 
   public async acquireToken(resource: string): Promise<string | null> {
     return new Promise((resolve, reject): void => {
-      ADALClient.authCtx.acquireToken(resource, (error, token): void => {
+      this.authCtx.acquireToken(resource, (error, token): void => {
         if (error) {
           reject(error);
           return;
